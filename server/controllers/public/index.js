@@ -167,6 +167,7 @@ router.post("/forgotpassword", async (req, res) => {
     await user.save(); ///IMPORTANTTTTT
     await sendEmail({
       to: email,
+      subject: "Password Reset.",
       html: `<p>Your new password is: ${newPass}</p>`,
     });
 
