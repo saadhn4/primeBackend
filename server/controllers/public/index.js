@@ -153,4 +153,28 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/forgotpassword", async (req, res) => {
+  try {
+    let { email } = req.body;
+    let user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "Invalid email" });
+    }
+    const newPass = Math.random().toString(36).substring(2);
+    console.log(newPass);
+    let hashPass = await bcrypt.hash(newPass, 10);
+    user.password = hashPass;
+    await user.save(); ///IMPORTANTTTTT
+    await sendEmail({
+      to: email,
+      html: `<p>Your new password is: ${newPass}</p>`,
+    });
+
+    res.status(200).json({ msg: "New password sent to user's email." });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
+});
+
 export default router;
