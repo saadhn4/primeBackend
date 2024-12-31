@@ -2,6 +2,7 @@ import express from "express";
 import config from "config";
 import "./utils/dbConnect.js";
 import userRouter from "./controllers/users/index.js";
+import movieRouter from "./controllers/movies/index.js";
 import publicRouter from "./controllers/public/index.js";
 import authMiddleware from "./middlewares/auth.js";
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/api/public", publicRouter);
 app.use(authMiddleware);
 app.use("/api/users", userRouter);
+app.use("/api/movies", movieRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is up and running at ${PORT}`);
