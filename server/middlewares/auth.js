@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   const JWT_SECRET = config.get("JWT_SECRET");
   try {
-    let check = jwt.sign(token, JWT_SECRET);
+    let check = jwt.verify(token, JWT_SECRET);
     next();
   } catch (error) {
     console.log(error);
